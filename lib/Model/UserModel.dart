@@ -26,31 +26,42 @@ class User {
   int id;
   String username;
   String Password;
-  String ConfirmPassword;
+  String password_confirmation;
   String email;
-  int Mobile_Number;
-  var image;
+  int phone_number;
+  var photo;
+  var certificate
+  ;
 
-  User({required this.id, required this.username, required this.email ,
-    required this.image,
-    required this.Mobile_Number,
+  User({required this.id,
+    required this.username,
+    required this.email ,
+    // required
+    this.photo,
+    required this.phone_number,
     required this.Password,
-    required this.ConfirmPassword,
+    required this.password_confirmation,
+    // required
+    this.certificate
+    ,
   });
 
   factory User.toObject(Map<String, dynamic> json) =>
-      User(id: json['id'], username: json['username'], email: json['email'] , image: json['image'],
-          Mobile_Number: json['Mobile_Number'], Password: json['Password'], ConfirmPassword:json['ConfirmPassword'] ,
+      User(id: json['id'], username: json['username'], email: json['email'] , photo: json['photo'],
+          phone_number: json['phone_number'], Password: json['Password'],
+        password_confirmation:json['password_confirmation'] ,
+        certificate:json['certificate'] ,
       );
 
   Map<String, dynamic> toJson() => {
     "id" : id,
     "username" : username,
     "Password" : Password,
-    "Mobile_Number" : Mobile_Number,
-    "ConfirmPassword" : ConfirmPassword,
+    "phone_number" : phone_number,
+    "password_confirmation" : password_confirmation,
     "email" : email,
-    "image" : image
+    "certificate": certificate,
+    "photo" : photo
   };
 
 }

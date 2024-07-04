@@ -1,20 +1,15 @@
-//import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:proflutter1/Auth/CustomButtonAuth.dart';
 import 'package:proflutter1/Auth/CustomTextFormAuth.dart';
 import 'package:proflutter1/Classes/AppColor.dart';
 import 'package:get/get.dart';
 import 'package:proflutter1/Logic/Controller/RegesterController.dart';
 import 'package:proflutter1/Routes/rourte.dart';
-import 'package:proflutter1/view/Home.dart';
-import 'package:proflutter1/view/LoginView.dart';
 
 class RegesterView extends GetView<RegesterController> {
-  bool _passwordInVisible = true;
-
   RegesterView({super.key}); //a boolean value
   AppColor appColor = new AppColor();
-  RegesterController controller = Get.put(RegesterController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +38,9 @@ class RegesterView extends GetView<RegesterController> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                controller.getImage();
+              },
               icon: CircleAvatar(
                 radius: 49,
                 backgroundColor: appColor.colorcamera,
@@ -64,8 +61,7 @@ class RegesterView extends GetView<RegesterController> {
                   key: controller.SigninFormkey,
                   child: ListView(children: [
                     CustomTextFormAuth(
-                      Hint_Text: 'Username',
-                      Label_Text: '',
+                      Label_Text: 'Username',
                       Font_Family: 'Cabin-Regular',
                       Hint_Style_Color: appColor.lebelcolor,
                       Back_Field: appColor.back,
@@ -82,8 +78,7 @@ class RegesterView extends GetView<RegesterController> {
 
                     //
                     CustomTextFormAuth(
-                      Hint_Text: 'email',
-                      Label_Text: '',
+                      Label_Text: 'email',
                       Font_Family: 'Cabin-Regular',
                       Hint_Style_Color: appColor.lebelcolor,
                       iconData: Icons.edit_calendar_outlined,
@@ -100,8 +95,7 @@ class RegesterView extends GetView<RegesterController> {
                     ),
 
                     CustomTextFormAuth(
-                      Hint_Text: 'Mobile Number',
-                      Label_Text: '',
+                      Label_Text: 'Mobile Number',
                       Font_Family: 'Cabin',
                       Hint_Style_Color: appColor.lebelcolor,
                       Back_Field: appColor.back,
@@ -115,30 +109,24 @@ class RegesterView extends GetView<RegesterController> {
                       },
                       obscureText: false,
                       KeybordType: TextInputType.number,
-
                     ),
 
                     Obx(
                       () => CustomTextFormAuth(
-                        Hint_Text: 'password',
-                        Label_Text: '',
+                        Label_Text: 'password',
                         Font_Family: 'Cario-Regular',
-                        Hint_Style_Color: appColor.lebelcolor
-                        //,iconData: Icons.visibility_off,
-                        ,
+                        Hint_Style_Color: appColor.lebelcolor,
                         iconData: controller.hidePassword.value == true
                             ? Icons.visibility_off
                             : Icons.visibility,
                         Back_Field: appColor.back,
                         Border_Field: appColor.borderfeild,
                         mycontrller: controller.passwordController,
-                          validate: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "This field is required";
-                            }
-                            return null;
-
-
+                        validate: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "This field is required";
+                          }
+                          return null;
                         },
                         onPressed: () {
                           controller.hidePassword.toggle();
@@ -149,8 +137,7 @@ class RegesterView extends GetView<RegesterController> {
 
                     Obx(
                       () => CustomTextFormAuth(
-                        Hint_Text: 'Confirm Password',
-                        Label_Text: '',
+                        Label_Text: 'Confirm Password',
                         Font_Family: 'cabin-Regular',
                         Hint_Style_Color: appColor.lebelcolor,
                         iconData: controller.hideConfirmPassword.value == true
@@ -190,7 +177,9 @@ class RegesterView extends GetView<RegesterController> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     GestureDetector(
-                                        onTap: () {},
+                                        onTap: () async {
+                                          controller.getFile();
+                                        },
                                         child: Text(
                                           "Certificate PDF file    ",
                                           style: TextStyle(
@@ -207,14 +196,33 @@ class RegesterView extends GetView<RegesterController> {
 
                     GestureDetector(
                       onTap: () async {
-
-
                         bool f =
                             controller.SigninFormkey.currentState!.validate();
-                        if (f) {
-                          await controller.doRegister();
-                          Get.offAllNamed(Routes.HomePage);
-                        }
+                        if (f)
+                       {
+                         Get.snackbar(
+                           "Processing!",
+                           "Please wait",
+                           icon: Icon(Icons.change_circle_outlined,
+                               color: Colors.green),
+                           snackPosition: SnackPosition.TOP,
+                         );
+
+                      if(controller.isfile==1 && controller.isimage==1)
+                        await controller.uploadDataWithFiles(controller.image, controller.filePath);
+
+                      else
+
+                        Get.snackbar(
+                          "Warning!",
+                          "choose file and image !",
+                          icon: Icon(Icons.warning, color: Colors.green),
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+
+
+                        print("===============================================================");}
+
                       },
                       child: CustomButtonAuth(
                           Text_: "Sign Up",

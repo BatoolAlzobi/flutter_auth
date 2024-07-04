@@ -3,58 +3,76 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:email_auth/email_auth.dart';
-import 'package:mailer/smtp_server.dart';
+import 'package:proflutter1/Dialog/SuccessDialog.dart';
+import 'package:proflutter1/Services_Api/auth_services.dart';
 
-import 'package:email_otp/email_otp.dart';
-
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class VerificationController extends GetxController {
 
+  final storage = const FlutterSecureStorage();
+
+  late TextEditingController code1, code2,  code3,code4,code5,code6;
+
+
+  dovery () async {
+
+
+    var data = await AuthServices.Verefy(
+      email: await storage.read(key: 'email'),
+      code: code1.text+code2.text+code3.text+code4.text+code5.text+code6.text);
+
+    print("==================================================");
+    print(data.toString());
+
+    print (await storage.read(key: 'email'),);
+    print (await storage.read(key: 'accessToken'),);
+
+
+    print("==================================================");
+
+
+  }
+  resend () async {
+
+
+    var data = await AuthServices.resend(
+      email: await storage.read(key: 'email'),
+        );
+
+    print("==================================================");
+    print(data.toString());
+    print (await storage.read(key: 'email'),);
+    print (await storage.read(key: 'accessToken'),);
+
+
+    print("==================================================");
+
+
+
+
+  }
+
+
+
+
+
+
+
   @override
   void onInit() async {
-    startTimer(60);
-   final myAuth = EmailOTP();
-
-// Sending OTP
-    await myAuth.sendOTP();
-    await sendOtp();
-
+    code1 = TextEditingController();
+    code2 = TextEditingController();
+    code3= TextEditingController();
+    code4= TextEditingController();
+    code5= TextEditingController();
+    code6= TextEditingController();
     super.onInit();
+
+    startTimer(180);
+
+
   }
-
-// Initialize the class
-  final emailAuth = EmailAuth(sessionName: "Sample session");
-
-// Sending an OTP
-   sendOtp() async {
-    bool result = await emailAuth.sendOtp(recipientMail: "faizzoubi200@gmail.com", otpLength: 5);
-    print(result);
-  }
-
-// Validating an OTP
-//   bool verify() {
-//     return emailAuth.validateOtp(recipientMail: _emailController.value.text, userOtp: _otpController.value.text);
-//   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   Timer? _timer;
@@ -68,19 +86,17 @@ class VerificationController extends GetxController {
 
   void stopTimer() {
     _timer?.cancel();
+    time.value="00.00";
     update();
 
   }
 
-  void resetTimer() {
-    stopTimer();
-    remainingSeconds = 0;
-    time.value = '00:00';
-    update();
-  }
+
 
   void _setCountdown() {
-    if (remainingSeconds == 0) {
+    if (remainingSeconds==00) {
+      remainingSeconds%60;
+
       stopTimer();
     } else {
       final minutes = remainingSeconds ~/ 60;
@@ -90,30 +106,6 @@ class VerificationController extends GetxController {
     }
   }
 
- // void SendOtp() async{
- //    EmailAuth.sessionName="test";
- //    var res =await EmailAuth.s
- // }
-
-
-// Future<void> sendVerificationEmail(String recipientEmail, String otp) async {
-//   final smtpServer =
-//    SmtpServer('your_smtp_server',
-//                 username: 'your_username', password: 'your_password');
-//
-//   final message = Message()
-//     ..from = Address('your_email@example.com', 'Your App')
-//     ..recipients.add(recipientEmail)
-//     ..subject = 'Verification Code'
-//     ..text = 'Your verification code is: $otp';
-//
-//   try {
-//     final sendReport = await send(message, smtpServer);
-//     print('Message sent: ${sendReport.toString()}');
-//   } catch (e) {
-//     print('Error sending email: $e');
-//   }
-// }
 
 
 }

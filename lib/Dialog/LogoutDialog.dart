@@ -3,9 +3,14 @@ import 'package:get/get.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:proflutter1/Auth/CustomButtonAuth.dart';
 import 'package:proflutter1/Classes/AppColor.dart';
+import 'package:proflutter1/Routes/rourte.dart';
+import 'package:proflutter1/Services_Api/auth_services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LogoutDialog extends StatelessWidget {
   AppColor appColor = new AppColor();
+  final storage = const FlutterSecureStorage();
+
   // Text("Oh no! You’re leaving...Are you sure?")
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class LogoutDialog extends StatelessWidget {
               InkWell(
                 onTap: (){
                   Get.back();
-                  Navigator.of(context).pop(); // Close the dialog
+               //   Navigator.of(context).pop(); // Close the dialog
 
                 },
 
@@ -60,10 +65,17 @@ class LogoutDialog extends StatelessWidget {
 
             //  SizedBox(height: 5.0),
               InkWell(
-                onTap: (){
-                 // Get.reset();
+                onTap: () async   {
 
-                },
+                  var token =await storage.read(key:'Token' );
+                  await  AuthServices.logout(
+                        accessToken: token,
+                  );
+
+                  Get.offAllNamed(Routes.Login);
+                  },
+
+
                 child: CustomButtonAuth(
                   Text_: 'Yes,Log Me out',
                   Back_Field: appColor.colorfull,

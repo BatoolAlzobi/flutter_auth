@@ -6,6 +6,7 @@ import 'package:gradient_borders/gradient_borders.dart';
 import 'package:get/get.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:proflutter1/Dialog/LogoutDialog.dart';
+import 'package:proflutter1/Routes/rourte.dart';
 
 class SuccessDialog extends StatelessWidget {
   AppColor appColor = new AppColor();
@@ -80,13 +81,9 @@ class SuccessDialog extends StatelessWidget {
 
           InkWell(
             onTap: (){
-            //  Get.back();
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.noHeader,
-                animType: AnimType.rightSlide,
-                body: LogoutDialog(),
-              ).show();
+             Get.back();
+             Get.offAllNamed(Routes.HomePage);
+
             },
             child: Center(
               child: CustomButtonAuth(

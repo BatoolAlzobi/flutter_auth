@@ -9,6 +9,8 @@ class LoginController extends GetxController{
   final loginFormkey = GlobalKey<FormState>();
   late TextEditingController emailController, passwordController,  Mobile_NumberController;
   final storage = const FlutterSecureStorage();
+  var isChecked = false.obs; // Initialize the checkbox state
+
 
   @override
   void onInit() {
@@ -41,21 +43,28 @@ class LoginController extends GetxController{
     }
   }
 
+
+
   doLogin() async { 
 
     // To Call Api Login
 
-    // var data = await AuthServices.login(
-    //        email: emailController.text,
-    //     password: passwordController.text,
-    //     Mobile_Number: Mobile_NumberController.text);
+    var data = await AuthServices.login(
+           email: emailController.text,
+        password: passwordController.text,
+        phone_number: Mobile_NumberController.text, );
+    print(data.toString());
     
-      await storage.write(key: "email", value:emailController.text);
-      await storage.write(key: "password", value:passwordController.text);
-      await storage.write(key: "Mobile_Number", value:Mobile_NumberController.text);
+      // await storage.write(key: "email", value:emailController.text);
+      // await storage.write(key: "password", value:passwordController.text);
+      // await storage.write(key: "Mobile_Number", value:Mobile_NumberController.text);
 
 
     }
 
 
+   checkk( value) {
+     isChecked.value = value;
+     update();
+   }
 }

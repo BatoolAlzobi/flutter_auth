@@ -56,9 +56,11 @@ dev_dependencies:
   flutter_screenutil:
   get_storage:
   http:
-  mailer:
-  email_auth:
-  email_otp:
+  image_picker:
+  open_file:
+  dio:
+  file_picker: ^3.0.2+2
+
 
 
 

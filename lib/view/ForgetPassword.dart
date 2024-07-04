@@ -32,8 +32,7 @@ class ForgetPassword extends GetView<ForgetPasswordController> {
                   Form(key: controller.ForgetKey,
                     child:
                   CustomTextFormAuth(
-                    Hint_Text: 'email',
-                    Label_Text: '',
+                    Label_Text: 'email',
                     Font_Family: 'Cabin',
                     Hint_Style_Color: appColor.lebelcolor,
                     iconData: Icons.edit_calendar_outlined,
@@ -53,7 +52,7 @@ class ForgetPassword extends GetView<ForgetPasswordController> {
                       bool f = controller.ForgetKey.currentState!.validate();
                       if (f) {
                          controller.Check_Email_with_DB();
-                          Get.offAllNamed(Routes.Verification);
+                          Get.toNamed(Routes.Verification);
                     }
                     },
                     child: CustomButtonAuth(

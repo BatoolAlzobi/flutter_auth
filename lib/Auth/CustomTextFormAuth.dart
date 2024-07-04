@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:proflutter1/Classes/AppColor.dart';
 import 'package:proflutter1/Logic/Controller/RegesterController.dart';
 
-class CustomTextFormAuth extends StatelessWidget{
-
-  final String Hint_Text;
+class CustomTextFormAuth extends StatelessWidget {
   final String Label_Text;
   final String Font_Family;
   final IconData? iconData;
@@ -14,14 +12,12 @@ class CustomTextFormAuth extends StatelessWidget{
   final Color Border_Field;
   final TextEditingController mycontrller;
   final FormFieldValidator<String> validate;
-  final  Function()? onPressed;
+  final Function()? onPressed;
   final bool obscureText;
-  final TextInputType?KeybordType;
+  final TextInputType? KeybordType;
 
   const CustomTextFormAuth({
     Key? key,
-
-    required this.Hint_Text,
     required this.Label_Text,
     required this.Font_Family,
     this.iconData,
@@ -33,47 +29,43 @@ class CustomTextFormAuth extends StatelessWidget{
     this.onPressed,
     required this.obscureText,
     this.KeybordType,
-
-
-
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
-    AppColor appColor= new AppColor();
+    AppColor appColor = new AppColor();
     return Padding(
-      padding: EdgeInsets.only(top: 15.0, left: 30, right: 30),
-      child: Container(
-        height: 40,
-        decoration: BoxDecoration(
-          color: Back_Field,
-          border: Border.all(
-            color: Border_Field,
-            width: 1,
+      padding: EdgeInsets.only(top: 10.0, left: 30, right: 30),
+      child: TextFormField(
+          keyboardType: KeybordType ?? null,
+          obscureText: obscureText,
+          validator: validate,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          controller: mycontrller,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Back_Field,
+            contentPadding: EdgeInsets.symmetric(vertical: 2.0,horizontal: 20),
+            border: OutlineInputBorder(),
+            labelText: Label_Text,
+            labelStyle: TextStyle(color: Hint_Style_Color, fontFamily: Font_Family,
           ),
-
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        ),
-        child:TextFormField(
-          keyboardType: KeybordType??null,
-           obscureText:obscureText,
-              validator: validate,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              controller: mycontrller,
-              decoration: InputDecoration(
-              hintText: Hint_Text,
-              suffixIcon: IconButton(
-                icon: Icon(iconData ?? null, color:  appColor.lebelcolor,),
-              onPressed:
-              onPressed??null,
+            suffixIcon: IconButton(icon: Icon(iconData ?? null, color: appColor.lebelcolor,), onPressed: onPressed ?? null,),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+              borderSide: BorderSide(color: Border_Field, width: 1),
             ),
-            hintStyle: TextStyle(color: Hint_Style_Color, fontFamily: Font_Family,),
-            contentPadding: EdgeInsets.all(12),
-            border: InputBorder.none,
+            errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            borderSide: BorderSide(color: Colors.red, width: 1),
           ),
-
+            focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            borderSide: BorderSide(color: Border_Field, width: 1),
+          ),
+             ),
+          style: TextStyle(height: 1.0),
       ),
-    ),);
+    );
   }
 }
